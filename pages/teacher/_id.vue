@@ -21,10 +21,10 @@
               </span>
             </h3>
             <section class="mt10">
-              <span class="t-tag-bg">{{ teacher.intro }}</span>
+              <span class="t-tag-bg">{{ teacher.intro }}</span> <!-- 简介 -->
             </section>
             <section class="t-infor-txt">
-              <p class="mt20">{{ teacher.career }}</p>
+              <p class="mt20">{{ teacher.career }}</p> <!-- 资历 -->
             </section>
             <div class="clear"/>
           </div>
@@ -57,7 +57,7 @@
                   <section class="course-img">
                     <img :src="course.cover" class="img-responsive">
                     <div class="cc-mask">
-                      <a :href="'/course/'+course.id" title="开始学习" target="_blank" class="comm-btn c-btn-1">开始学习</a>
+                      <a :href="'/course/'+course.id" title="开始学习" target="_blank" class="comm-btn c-btn-1">开始学习</a> <!-- target="_blank"表示打开新标签 -->
                     </div>
                   </section>
                   <h3 class="hLh30 txtOf mt10">
@@ -79,27 +79,32 @@
 <script>
 import teacherApi from '~/api/teacher'
 export default {
+  /*
   // asyncData被调用的时候, 第一个参数被设定为当前页面的上下文对象
-  // asyncData(page) { // getById异步调用
-  //   console.log(page.route)
-  //   return teacherApi.getById(page.route.params.id).then(response => {
-  //     return {
-  //       tracher: response.data.teacher,
-  //       courseList: response.data.courseList
-  //     }
-  //   })
-  // }
+  asyncData(page) { // getById异步调用, 但第二个return是同步的, 所以不会出错
+    console.log(page.route)
+    return teacherApi.getById(page.route.params.id).then(response => {
+      return {
+        tracher: response.data.teacher,
+        courseList: response.data.courseList
+      }
+    })
+  }
+  */
 
-  // asyncData(page) { // 出错,因为getById是异步调用
-  //   const response = teacherApi.getById(page.route.params.id)
-  //   console.log('response'.response)
+  /*
+  asyncData(page) { // 出错,因为getById是异步调用
+    const response = teacherApi.getById(page.route.params.id)
+    console.log('response'.response)
 
-  //   return {
-  //     tracher: response.data.teacher,
-  //     courseList: response.data.courseList
-  //   }
-  // }
-  async asyncData(page) { // getById同步调用--好处:1.不用嵌套2.可以调多个Api3.反正也是服务端渲染
+    return {
+      tracher: response.data.teacher,
+      courseList: response.data.courseList
+    }
+  }
+  */
+
+  async asyncData(page) { // getById同步调用--好处:1.不用嵌套2.可以调多个Api3.反正也是前端服务端渲染,都要所有数据都返回才能渲染. admin项目中用异步,是为了页面给用户逐步显示出来,用户体验好点
     const response = await teacherApi.getById(page.route.params.id)
     console.log('response', response)
 

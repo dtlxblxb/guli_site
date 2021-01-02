@@ -10,9 +10,9 @@
           </a>
         </div>
       </div>
-      <div class="swiper-pagination swiper-pagination-white"/>
-      <div slot="button-prev" class="swiper-button-prev swiper-button-white"/>
-      <div slot="button-next" class="swiper-button-next swiper-button-white"/>
+      <div class="swiper-pagination swiper-pagination-white"/> <!-- 小点 -->
+      <div slot="button-prev" class="swiper-button-prev swiper-button-white"/> <!-- '<' -->
+      <div slot="button-next" class="swiper-button-next swiper-button-white"/> <!-- '>' -->
     </div>
     <!-- 幻灯片 结束 -->
 
@@ -31,11 +31,7 @@
                 <li v-for="course in courseList" :key="course.id">
                   <div class="cc-l-wrap">
                     <section class="course-img">
-                      <img
-                        :src="course.cover"
-                        :alt="course.title"
-                        class="img-responsive"
-                      >
+                      <img :src="course.cover" :alt="course.title" class="img-responsive">
                       <div class="cc-mask">
                         <a :href="'/course/'+course.id" title="开始学习" class="comm-btn c-btn-1">开始学习</a>
                       </div>
@@ -116,20 +112,20 @@ export default {
     const courseList = indexDataResponse.data.courseList
     const teacherList = indexDataResponse.data.teacherList
     return {
-      topBannerAdList,
-      courseList,
-      teacherList
+      topBannerAdList, // 轮播图广告列表
+      courseList, // 课程列表(最多8个)
+      teacherList // 讲师列表(最多4个)
     }
   },
   // 幻灯片导航的定义
   data() {
     return {
       swiperOption: {
-        // 配置分页
+        // 配置分页-- 小点
         pagination: {
           el: '.swiper-pagination'// 分页的dom节点
         },
-        // 配置导航
+        // 配置导航-- <或>
         navigation: {
           nextEl: '.swiper-button-next', // 下一页dom节点
           prevEl: '.swiper-button-prev'// 前一页dom节点

@@ -9,7 +9,7 @@
 <script>
 import teacherApi from '~/api/teacher'
 export default {
-  // 异步数据获取--服务器端渲染方案
+  // 异步数据获取(Ajax)--服务器端渲染方案--给客户端是一个完整的页面--爬虫相当于客户端,因此能爬到
   asyncData() { // 在前端服务器执行,浏览器端不会看到Ajax请求,而在查看页面源代码时,能看到渲染好的页面,因为已经在前端服务器渲染好了,函数内不能用this,因为它是在vue对象初始化前执行
     return teacherApi.getList().then(response => {
       return {
@@ -18,7 +18,7 @@ export default {
     })
   }
 
-  // 这是以前的写法--客户端渲染方案
+  // 这是以前的写法--客户端渲染方案--给客户端是一个需要填空的页面和json数据,然后在客户端渲染--爬虫相当于客户端,因此能爬不到(因为是一个需要填空的页面)
   // data() {
   //   return {
   //     items: []

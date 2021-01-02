@@ -22,9 +22,9 @@
               <li v-for="(item, index) in items" :key="index">
                 <section class="i-teach-wrap">
                   <div class="i-teach-pic">
-                    <!-- 使用 title 属性，可以让鼠标悬停在超链接上的时候，显示该超链接的文字注 -->
+                    <!-- 使用 title 属性，可以让鼠标悬停在超链接上的时候，显示该超链接的文字注释 -->
                     <a :title="item.name" :href="'/teacher/' + item.id">
-                      <!-- alt 属性是一个必需的属性，它规定在图像无法显示时的替代文本。 -->
+                      <!-- alt 属性是一个必需的属性，它规定在图像无法显示时的替代文本 -->
                       <img :src="item.avatar" :alt="item.name" width="142">
                     </a>
                   </div>
@@ -32,10 +32,10 @@
                     <a :title="item.name" :href="'/teacher/' + item.id" class="fsize18 c-666">{{ item.name }}</a>
                   </div>
                   <div class="hLh30 txtOf tac">
-                    <span class="fsize14 c-999" >{{ item.intro }}</span>
+                    <span class="fsize14 c-999" >{{ item.intro }}</span> <!-- 简介 -->
                   </div>
                   <div class="mt15 i-q-txt">
-                    <p class="c-999 f-fA">{{ item.cereer }}</p>
+                    <p class="c-999 f-fA">{{ item.career }}</p> <!-- 资历 -->
                   </div>
                 </section>
               </li>
@@ -53,7 +53,7 @@
 <script>
 import teacherApi from '~/api/teacher'
 export default {
-  // 服务器端渲染
+  // 前端服务器端渲染
   asyncData() {
     return teacherApi.getList().then(response => {
       return {

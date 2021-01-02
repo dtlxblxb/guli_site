@@ -9,44 +9,24 @@
     <div class="sign-up-container">
       <form action="register">
         <div class="input-prepend restyle">
-          <input
-            v-model="member.nickname"
-            type="text"
-            placeholder="你的昵称">
+          <input v-model="member.nickname" type="text" placeholder="你的昵称">
           <i class="iconfont icon-user"/>
         </div>
         <div class="input-prepend restyle no-radius">
-          <input
-            v-model="member.mobile"
-            type="text"
-            placeholder="手机号">
+          <input v-model="member.mobile" type="text" placeholder="手机号">
           <i class="iconfont icon-phone"/>
         </div>
         <div class="input-prepend restyle no-radius" style="position:relative">
-          <input
-            v-model="member.code"
-            type="text"
-            placeholder="验证码">
+          <input v-model="member.code" type="text" placeholder="验证码">
           <i class="iconfont icon-yanzhengma"/>
-          <a
-            href="javascript:"
-            type="button"
-            style="position:absolute;right: 10px;top: 15px;"
-            @click="getCodeFun()">{{ codeText }}</a>
+          <a href="javascript:" type="button" style="position:absolute;right: 10px;top: 15px;" @click="getCodeFun()">{{ codeText }}</a>
         </div>
         <div class="input-prepend">
-          <input
-            v-model="member.password"
-            type="password"
-            placeholder="设置密码">
+          <input v-model="member.password" type="password" placeholder="设置密码">
           <i class="iconfont icon-password"/>
         </div>
         <div class="btn">
-          <input
-            type="button"
-            class="sign-up-button"
-            value="注册"
-            @click="submitRegister()">
+          <input type="button" class="sign-up-button" value="注册" @click="submitRegister()">
         </div>
         <p class="sign-up-msg">
           点击 “注册” 即表示您同意并愿意遵守简书
@@ -74,7 +54,7 @@ import '~/assets/css/iconfont.css'
 import registerApi from '~/api/register'
 
 export default {
-  layout: 'sign', // 除了登录和注册(有logo)其它默认都用default.vue(有header和footer)布局
+  layout: 'sign', // 除了登录和注册用~/layouts/sign.vue(有logo)布局,其它默认都用~/layouts/default.vue(有header和footer)布局
   data() {
     return {
       member: {
@@ -83,7 +63,7 @@ export default {
         nickname: '',
         password: ''
       },
-      sending: false, // 是否发送验证码
+      sending: false, // 是否已经发送了验证码
       second: 60, // 倒计时间
       codeText: '获取验证码'
     }
@@ -91,7 +71,7 @@ export default {
   methods: {
     // 获取验证码
     getCodeFun() {
-      // this.sending原为false, 点击后立即使 this.sending == true，防止有人多次点击
+      // this.sending原为false, 点击后立即使 this.sending == true，防止多次点击
       if (this.sending) return
       this.sending = true
       registerApi.sendMessage(this.member.mobile).then(response => {
@@ -102,13 +82,13 @@ export default {
 
     // 倒计时
     timeDown() {
-      const timer = setInterval(() => { // 接收两个参数:没有参数的函数和函数执行的毫秒间隔
-        this.codeText = this.second
-        this.second--
-        if (this.second < 0) {
-          clearInterval(timer)
+      this.codeText = this.second
+      // timer相当于计时器的引用。setInterval接收两个参数:没有参数的匿名函数(执行的代码)和匿名函数执行的毫秒间隔(直到调用clearInterval函数)
+      const timer = setInterval(() => {
+        this.codeText--
+        if (this.codeText < 1) {
+          clearInterval(timer) // 清空计时器
           this.codeText = '获取验证码'
-          this.second = 60
           this.sending = false
         }
         // console.log(new Date())

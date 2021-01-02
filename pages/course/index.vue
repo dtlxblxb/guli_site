@@ -19,9 +19,9 @@
                 <li :class="{current: !$route.query.subjectParentId}"> <!-- 无论subjectParentId是undefined,null,''哪一个,这个属性起作用(true,因为!).如果有值,这个属性不起作用(false,因为!) -->
                   <a title="全部" href="javascript:void(0);" @click="searchSubjectLevelOne('')">全部</a>
                 </li>
-                <!-- 可以传给:class 一个对象，以动态地切换 class, current 这个 class 存在与否将取决于数据值的真与假 -->
+                <!-- 可以传给:class 一个对象，以动态地切换 class,current(红色高亮),  这个 class 存在与否将取决于数据值的真与假, 这是vue自己的语法规定 -->
                 <li v-for="item in subjectNestedList" :key="item.id" :class="{current: $route.query.subjectParentId === item.id}">
-                  <!-- javascript:void(0),没启实质上的作用，它仅仅是一个死链接，执行的函数是searchSubjectLevelOne() -->
+                  <!-- javascript:void(0),没启实质上的作用，它仅仅是一个死链接，点击时执行的函数是searchSubjectLevelOne() -->
                   <a :title="item.title" href="javascript:void(0);" @click="searchSubjectLevelOne(item.id)">{{ item.title }}</a>
                 </li>
               </ul>
@@ -58,17 +58,19 @@
           <section class="fl">
             <!-- 排序 开始-->
             <ol class="js-tap clearfix">
-              <li :class="{'current bg-green': searchObj.buyCountSort}">
+              <li :class="{'current bg-green': $route.query.buyCountSort}">
                 <a title="销量" href="javascript:void(0);" @click="searchBuyCount()">销量
                   <i>↓</i>
                 </a>
               </li>
-              <li :class="{'current bg-green': searchObj.gmtCreateSort}">
+              <li :class="{'current bg-green': $route.query.gmtCreateSort}">
                 <a title="最新" href="javascript:void(0);" @click="searchGmtCreate()">最新
                   <i>↓</i>
                 </a>
               </li>
-              <li :class="{'current bg-green': searchObj.priceSort}">
+              <li :class="{'current bg-green': $route.query.priceSort}">
+                <!-- 这句和下句是用2个==判断的, url查询字符串值的默认类型是字符串 -->
+                <!-- 这个注释放到a标签内会出错, 不知道为什么 -->
                 <a v-if="!$route.query.type || $route.query.type == 2" title="价格" href="javascript:void(0);" @click="searchPrice(1)">价格
                   <i>↑</i>
                 </a>
@@ -103,7 +105,7 @@
                     <a :href="'/course/'+item.id" :title="item.title" class="course-title fsize18 c-333">{{ item.title }}</a>
                   </h3>
                   <section class="mt10 hLh20 of">
-                    <span v-if="Number(item.price) === 0" class="fr jgTag bg-green">
+                    <span v-if="Number(item.price) === 0" class="fr jgTag bg-green"> <!-- 默认情况是0.0000, 所以要转换 -->
                       <i class="c-fff fsize12 f-fA">免费</i>
                     </span>
                     <span v-else class="fr jgTag ">
@@ -136,12 +138,13 @@ export default {
   async asyncData(page) {
     // 组装查询对象
     // 当点击查询条件的时候,在url地址栏中组装查询参数
-    // 从url地址栏中获取查询参数,对页面中相应部分进行高亮显示
+    // 从url地址栏中获取查询参数,对页面中相应部分进行高亮红色显示
     const searchObj = {} // 要求键和后台WebCourseQueryVo的字段一致
 
+    // this.$route.query 不能用this, 因为vue对象这时尚未创建
     // 从url地址栏中获取查询参数
     const query = page.route.query // page.route.query取得url中?后的键值对(叫查询字符串queryString),page.route.params.id取得url中最后一个"/"后的值
-    searchObj.subjectParentId = query.subjectParentId || '' // 如果query.subjectParentId=undefined 统一用空串代替,注意undefined,null,''的区别:undefined,null,''都是false,后台isEmpty('')是true
+    searchObj.subjectParentId = query.subjectParentId || '' // 为了后端处理方便, query.subjectParentId=undefined 统一用空串代替.注意undefined,null,''的区别:undefined,null,''都是false,后台isEmpty('')是true
     searchObj.subjectId = query.subjectId || '' // searchObj.subjectId的subjectId是后台WebCourseQueryVo的字段的名字, query.subjectId的subjectId是url出现的名字
     searchObj.buyCountSort = query.buyCountSort || ''
     searchObj.gmtCreateSort = query.gmtCreateSort || ''
@@ -153,7 +156,7 @@ export default {
     const courseList = courseListResponse.data.courseList
     // console.log(courseList) // 由于在浏览器看不到Ajax请求, 所以观察数据可以采用这种方法, 最好用Vue插件观察
 
-    // 课程分类列表的查询
+    // 课程分类列表的查询--用于:1.显示一级分类, 2.查询二级分类列表
     const subjectNestedListResponse = await courseApi.getSubjectNestedList()
     const subjectNestedList = subjectNestedListResponse.data.items
 
@@ -179,18 +182,21 @@ export default {
   methods: {
     // 选择一级分类
     searchSubjectLevelOne(subjectParentId) {
-      // 如果这样写,前面的<a>@click="searchSubjectLevelOne()">全部</a>中searchSubjectLevelOne函数就不用传参, 这样subjectParentId得到undefind
-      // if (subjectParentId) {
-      //   window.location = 'course?subjectParentId=' + subjectParentId // window.location 对象代表当前页面的地址 (URL), 它的变化会让整个页面刷新, 从而引起asyncData()的执行
-      // } else {
-      //   window.location = 'course'
-      // }
-      window.location = 'course?subjectParentId=' + subjectParentId // 前面的<a>@click="searchSubjectLevelOne()">全部</a>中searchSubjectLevelOne函数需要传空串参数
+      /*
+      // 可以这样写,前面的<a>@click="searchSubjectLevelOne()">全部</a>中searchSubjectLevelOne函数就不用传参, 这种情况subjectParentId得到undefind
+      if (subjectParentId) {
+        window.location = 'course?subjectParentId=' + subjectParentId // window.location 对象代表当前页面的地址 (URL), 它的变化会让整个页面刷新, 从而引起asyncData()的执行
+      } else {
+        window.location = 'course'
+      }
+      */
+      // 也可以这样写, 前面的<a>@click="searchSubjectLevelOne()">全部</a>中searchSubjectLevelOne函数需要传空串参数, 否则subjectParentId得到undefind, 这样就会出错
+      window.location = 'course?subjectParentId=' + subjectParentId // 影响:1.课程列表2.高亮显示
     },
 
     // 选择二级分类
     searchSubjectLevelTwo(subjectId) {
-      // console.log(this.searchObj) // 一跳转这个就显示不出了
+      // console.log(this.searchObj) // 页面一跳转,上一页的console.log的内容就会清除
       // window.location = 'course?subjectParentId=' + this.searchObj.subjectParentId + '&subjectId=' + subjectId
 
       // 自动组装queryString

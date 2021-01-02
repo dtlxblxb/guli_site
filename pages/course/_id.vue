@@ -102,7 +102,7 @@
                   </h6>
                   <div class="course-txt-body-wrap">
                     <section class="course-txt-body" v-html="course.description">
-                      <!-- 将内容中的html翻译过来 -->
+                      <!-- v-html:将内容中的html翻译过来 -->
                       <!-- {{ course.description }} 不能这样绑定-->
                     </section>
                   </div>
@@ -125,10 +125,10 @@
                             </a>
                             <ol class="lh-menu-ol" style="display: block;">
                               <li v-for="video in chapter.children" :key="video.id" class="lh-menu-second ml30">
-                                <a v-if="isBuy || course.price === 0" :href="'/player/'+video.videoSourceId" :title="video.title">
+                                <a v-if="isBuy || course.price === 0" :href="'/player/'+video.videoSourceId" :title="video.title" target="_blank">
                                   <em class="lh-menu-i-2 icon16 mr5">&nbsp;</em>{{ video.title }}
                                 </a>
-                                <a v-else-if="video.free === true" :href="'/player/'+video.videoSourceId" :title="video.title">
+                                <a v-else-if="video.free === true" :href="'/player/'+video.videoSourceId" :title="video.title" target="_blank">
                                   <em class="lh-menu-i-2 icon16 mr5">&nbsp;</em>{{ video.title }}
                                   <i class="free-icon vam mr10 fr">免费试听</i>
                                 </a>
@@ -241,6 +241,7 @@ export default {
 </script>
 
 <style>
+/* 由于页面中为使其在不同的浏览器中显示一样的效果，对所有标签的样式做了统一的规定， 这组css就是为了恢复有序列表和无序列表中的ol、ul、li本来样式 */
 .course-txt-body ol, .course-txt-body ul{
     padding-left: 40px;
     margin: 16px 0;

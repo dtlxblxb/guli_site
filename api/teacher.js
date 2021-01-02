@@ -1,4 +1,4 @@
-import request from '~/utils/request'
+import request from '~/utils/request' // ~ : 表示当前项目的目录(admin项目用@表示src目录)
 
 export default{
 

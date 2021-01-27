@@ -67,7 +67,7 @@ export default {
     }
   },
 
-  created() {
+  mounted() { // 为什么created()出现window is not defined错误
     this.fetchCollectList()
   },
 

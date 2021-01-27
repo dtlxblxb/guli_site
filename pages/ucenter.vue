@@ -12,19 +12,13 @@
                   <span>我的资料</span>
                   <ol>
                     <li>
-                      <a href="/ucenter" title="">
-                        基本资料
-                      </a>
+                      <a href="/ucenter" title="">基本资料</a>
                     </li>
                     <li>
-                      <a href="uc_avatar.html" title="">
-                        个人头像
-                      </a>
+                      <a href="uc_avatar.html" title="">个人头像</a>
                     </li>
                     <li>
-                      <a href="uc_password.html" title="">
-                        密码设置
-                      </a>
+                      <a href="uc_password.html" title="">密码设置</a>
                     </li>
                   </ol>
                 </li>
@@ -47,14 +41,10 @@
                   <span>我的问答</span>
                   <ol>
                     <li>
-                      <a href="uc_question.html" title="">
-                        我的提问
-                      </a>
+                      <a href="uc_question.html" title="">我的提问</a>
                     </li>
                     <li>
-                      <a href="uc_anwser.html" title="">
-                        我的回答
-                      </a>
+                      <a href="uc_anwser.html" title="">我的回答</a>
                     </li>
                   </ol>
                 </li>
@@ -74,6 +64,7 @@
           </dl>
         </menu>
 
+        <!-- 子页面占位符 -->
         <nuxt-child />
 
         <div class="clear"/>

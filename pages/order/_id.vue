@@ -1,5 +1,4 @@
 <template>
-
   <div class="Page Confirm">
     <div class="Title">
       <h1 class="fl f18">订单确认</h1>
@@ -33,7 +32,7 @@
           <a :href="'/course/'+order.courseId">返回课程详情页</a>
         </div>
       </div>
-      <el-button :disabled="!agree" type="danger" @click="toPay()">去支付</el-button>
+      <el-button :disabled="!agree" type="danger" @click="toPay()">去支付</el-button> <!-- :disabled代表是否禁用 -->
       <div class="clear"/>
     </div>
   </div>

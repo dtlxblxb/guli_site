@@ -40,6 +40,7 @@
       <div class="more-sign">
         <h6>社交帐号直接注册</h6>
         <ul>
+          <!-- 这里只能硬编码9110, 因为此项目没有定义像guli_admin项目中的配置文件中定义的全局变量(process.env.BASE_API) -->
           <li><a id="weixin" class="weixin" href="http://localhost:9110/api/ucenter/wx/login"><i class="iconfont icon-weixin"/></a></li>
           <li><a id="qq" class="qq" target="_blank" href="#"><i class="iconfont icon-qq"/></a></li>
         </ul>

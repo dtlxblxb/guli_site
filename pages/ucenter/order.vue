@@ -16,7 +16,7 @@
           </section>
 
           <!-- 表格 -->
-          <el-table v-if="orderList.length>0" :data="orderList" border fit highlight-current-row>
+          <el-table v-if="orderList.length > 0" :data="orderList" border fit highlight-current-row>
             <el-table-column label="课程信息" align="center" >
               <template slot-scope="scope">
                 <div class="info" >
@@ -76,7 +76,7 @@ export default {
       orderList: []
     }
   },
-  created() {
+  mounted() { // 为什么created()出现window is not defined错误
     this.fetchOrderList()
   },
   methods: {

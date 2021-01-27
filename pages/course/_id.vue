@@ -121,17 +121,20 @@
                           <!-- 课程章节目录 -->
                           <li v-for="chapter in chapterList" :key="chapter.id" class="lh-menu-stair">
                             <a :title="chapter.title" href="javascript: void(0)" class="current-1">
-                              <em class="lh-menu-i-1 icon18 mr10"/>{{ chapter.title }}
+                              <em class="lh-menu-i-1 icon18 mr10"/>{{ chapter.title }} <!-- 小圆圈+章节 -->
                             </a>
                             <ol class="lh-menu-ol" style="display: block;">
                               <li v-for="video in chapter.children" :key="video.id" class="lh-menu-second ml30">
+                                <!-- 购买了或者免费 -->
                                 <a v-if="isBuy || course.price === 0" :href="'/player/'+video.videoSourceId" :title="video.title" target="_blank">
-                                  <em class="lh-menu-i-2 icon16 mr5">&nbsp;</em>{{ video.title }}
+                                  <em class="lh-menu-i-2 icon16 mr5">&nbsp;</em>{{ video.title }} <!-- 缩进的小圆圈+课时 -->
                                 </a>
+                                <!-- 本课时免费试听 -->
                                 <a v-else-if="video.free === true" :href="'/player/'+video.videoSourceId" :title="video.title" target="_blank">
                                   <em class="lh-menu-i-2 icon16 mr5">&nbsp;</em>{{ video.title }}
                                   <i class="free-icon vam mr10 fr">免费试听</i>
                                 </a>
+                                <!-- 需要购买才能观看 -->
                                 <a v-else :title="video.title">
                                   <em class="lh-menu-i-2 icon16 mr5">&nbsp;</em>{{ video.title }}
                                 </a>
@@ -203,7 +206,7 @@ export default {
     }
   },
   created() {
-    // 如果未登录，则isBuy=false, 如果已登录，则判断是否已购买
+    // 如果未登录，则isBuy=false, 如果已登录，则判断是否已购买。收藏同理
     const token = cookie.get('guli_jwt_token')
     if (token) {
       orderApi.isBuy(this.course.id).then(response => {
